@@ -1,339 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question Bank - Data Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      font-family: 'Times New Roman', serif;
-      background-color: #ffdce8;
-      margin: 0;
-      padding: 20px;
-      color: #333;
+      background-color: #fce7f3;
+      font-family: "Times New Roman", serif;
     }
-
-    h1 {
-      text-align: center;
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .question-card {
+      background-color: #fff0f7;
     }
-
-    .section-title {
-      margin-top: 40px;
-      font-size: 28px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .question-box {
-      background: white;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 15px;
-      max-width: 900px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .question {
-      font-size: 20px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-
-    .option {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .option:hover {
-      background-color: #ffeaf1;
-    }
-
-    button {
-      display: block;
-      margin: 30px auto;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 12px;
-      background-color: #ff8fb1;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      font-family: 'Times New Roman', serif;
-    }
-
-    button:hover {
-      background-color: #ff6f99;
-    }
-
-    .correct {
-      background-color: #b8f5b1 !important;
-    }
-
-    .wrong {
-      background-color: #ffb3b3 !important;
-    }
-
-    #score {
-      text-align: center;
-      font-size: 28px;
-      margin-top: 30px;
-      font-weight: bold;
+    h1, h2, h3 {
+      font-family: "Times New Roman", serif;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen p-6">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-center mb-2 text-pink-800">Question Bank - Data Analysis</h1>
+    <p class="text-center text-pink-600 mb-12 text-xl">System Analysis & Design - Interactive Quiz</p>
 
-<h1>Question Bank - Data Analysis</h1>
+    <h2 class="text-3xl font-bold text-pink-700 mb-8">True / False Questions (60)</h2>
+    <div id="tf-questions" class="space-y-10"></div>
 
-<div class="section-title">True / False Questions</div>
-<div id="tf-container"></div>
+    <h2 class="text-3xl font-bold text-pink-700 mt-20 mb-8">Multiple Choice Questions (50)</h2>
+    <div id="mcq-questions" class="space-y-10"></div>
+  </div>
 
-<div class="section-title">MCQ Questions</div>
-<div id="mcq-container"></div>
+  <script>
+    // 60 True/False
+    const trueFalseQuestions = [
+      { q: "Hardware includes physical equipment used for input, output, and processing.", a: "True", expl: "Hardware consists of all physical devices used in the computer system." },
+      { q: "Software is the application program used to control and coordinate hardware.", a: "True", expl: "Software directs and controls hardware operations." },
+      { q: "Data are organized facts used to generate information immediately.", a: "False", expl: "Data are raw facts. When processed, they become information." },
+      { q: "Database software is used for efficient access to required data.", a: "True", expl: "DBMS allows efficient storage and retrieval of data." },
+      { q: "A Network consists of only one computer connected to a printer.", a: "False", expl: "A network connects two or more computers and devices." },
+      { q: "People are the most important component of an information system.", a: "True", expl: "People are the key component as they use and manage the system." },
+      { q: "System design is the process of creating a high-level architecture for a software solution.", a: "True", expl: "This is the main purpose of the system design phase." },
+      { q: "The System Development Life Cycle (SDLC) has only 3 stages.", a: "False", expl: "SDLC usually consists of 5 to 7 main stages." },
+      { q: "User Interface (UI) design focuses on how a user interacts with a system.", a: "True", expl: "UI design is concerned with user interaction." },
+      { q: "A Centralized System means data processing occurs in one single center.", a: "True", expl: "All processing is done at a central location." },
+      { q: "System Software includes Device Drivers and Firmware.", a: "True", expl: "Both are types of system software." },
+      { q: "Analysis is the stage where the actual code is written.", a: "False", expl: "Coding is done in the Implementation phase." },
+      { q: "Feasibility studies help determine if a project should move forward.", a: "True", expl: "Feasibility study assesses viability of the project." },
+      { q: "Direct cutover is a method of moving components from an old system to a new one.", a: "True", expl: "It is one of the conversion methods." },
+      { q: "Dialogue design is a sequence of information displayed to and obtained from a user.", a: "True", expl: "It defines the conversation between user and system." },
+      { q: "Operating systems are a type of Application Software.", a: "False", expl: "Operating systems are System Software." },
+      { q: "Maintenance is the last stage of the SDLC.", a: "True", expl: "Maintenance follows implementation." },
+      { q: "Scalability is a decision made during the system design phase.", a: "True", expl: "Scalability is considered in design." },
+      { q: "Information systems cannot work without data.", a: "True", expl: "Data is a core component of any IS." },
+      { q: "Secondary storage is used to store data temporarily during processing.", a: "False", expl: "Secondary storage is for long-term storage." },
+      { q: "User requirements are identified during the Design phase.", a: "False", expl: "Requirements are gathered in the Analysis phase." },
+      { q: "Decentralized systems have a processing center for each major department.", a: "True", expl: "Processing is distributed across departments." },
+      { q: "Utility software is a type of system software.", a: "True", expl: "Utility programs are part of system software." },
+      { q: "Testing ensures the program is successful before client production.", a: "True", expl: "Testing verifies the system before deployment." },
+      { q: "Dialogue diagrams use boxes with three sections.", a: "True", expl: "Standard dialogue diagram format." },
+      { q: "System design involves making decisions about security and performance.", a: "True", expl: "These are important design considerations." },
+      { q: "A Network allows for the sharing of resources like printers.", a: "True", expl: "Resource sharing is a main benefit of networks." },
+      { q: "Database Management Systems (DBMS) manage data storage.", a: "True", expl: "DBMS handles data storage and management." },
+      { q: "People are not considered a component of Information Systems.", a: "False", expl: "People are one of the five main components." },
+      { q: "Processors are considered a hardware component.", a: "True", expl: "CPU is a core hardware component." },
+      { q: "System design meets the constraints of a problem.", a: "True", expl: "Design must respect all given constraints." },
+      { q: "Analysis phase results include a clear definition of the problem.", a: "True", expl: "Problem definition is part of analysis." },
+      { q: "The budget for a new system is determined after it is built.", a: "False", expl: "Budget is estimated during planning." },
+      { q: "Monitoring for bugs occurs during the Operations and Maintenance phase.", a: "True", expl: "Maintenance includes bug fixing." },
+      { q: "Dialogue diagrams represent the sequencing of displays.", a: "True", expl: "They show the flow of screens." },
+      { q: "Input devices are part of the hardware structure.", a: "True", expl: "Keyboard, mouse, etc. are input hardware." },
+      { q: "Application software coordinates hardware components.", a: "False", expl: "System software coordinates hardware." },
+      { q: "Data flows are a key consideration in system design.", a: "True", expl: "Data flow is important in system architecture." },
+      { q: "Decentralization can improve data processing speed for specific departments.", a: "True", expl: "Local processing can be faster." },
+      { q: "Implementation includes the process of Direct Cutover.", a: "True", expl: "Direct cutover is a type of implementation." },
+      { q: "User Interface design includes the Principles for good design.", a: "True", expl: "Good UI follows established design principles." },
+      { q: "System Analysis results include a description of the current system.", a: "True", expl: "Current system is studied in analysis." },
+      { q: "Computer peripherals are NOT considered hardware.", a: "False", expl: "Peripherals are hardware devices." },
+      { q: "Operations and Maintenance identify parts of a system that need improving.", a: "True", expl: "This is a main goal of the maintenance phase." },
+      { q: "A bidirectional line in a dialogue diagram connects sections.", a: "True", expl: "Bidirectional lines show two-way communication." },
+      { q: "An information system consists of unrelated components.", a: "False", expl: "Components are interrelated." },
+      { q: "Hardware includes input, output, and processing devices.", a: "True", expl: "These are the main categories of hardware." },
+      { q: "Software is only used for entertainment purposes.", a: "False", expl: "Software has many purposes." },
+      { q: "Data are raw facts that must be processed to become information.", a: "True", expl: "This is the standard definition." },
+      { q: "DBMS manages data efficiently.", a: "True", expl: "One of the main advantages of DBMS." },
+      { q: "Procedures include step-by-step instructions for tasks.", a: "True", expl: "Procedures are documented instructions." },
+      { q: "Human resources include programmers and system analysts.", a: "True", expl: "They are part of the people component." },
+      { q: "The main purpose of an information system is to benefit end users.", a: "True", expl: "IS exists to support users." },
+      { q: "ERP systems are examples of information systems.", a: "True", expl: "ERP is a type of enterprise information system." },
+      { q: "Hardware can operate effectively without software.", a: "False", expl: "Hardware needs software to function." },
+      { q: "System Analysis focuses mainly on programming activities.", a: "False", expl: "Programming is part of implementation." },
+      { q: "The Planning Stage includes feasibility studies.", a: "True", expl: "Feasibility is done in planning." },
+      { q: "Functional requirements describe only performance and security.", a: "False", expl: "Functional requirements describe what the system does." },
+      { q: "Users, clients, and technical staff are primary stakeholders.", a: "True", expl: "They are the main stakeholders." },
+      { q: "Prototyping is used only after system implementation.", a: "False", expl: "Prototyping is used in early stages." }
+    ];
 
-<button onclick="checkAnswers()">Submit Answers</button>
-<div id="score"></div>
+    // 50 MCQ
+    const mcqQuestions = [
+      { q: "Which component is responsible for processing data?", options: ["A- Software", "B- Hardware", "C- Databases", "D- Networks"], a: "B- Hardware", expl: "Hardware (especially CPU) processes data." },
+      { q: "Raw facts and figures describe which component?", options: ["A- Information", "B- Knowledge", "C- Data", "D- Software"], a: "C- Data", expl: "Data are raw unprocessed facts." },
+      { q: "What are the three types of software mentioned?", options: ["A- System, Application, Utility", "B- Primary, Secondary, Tertiary", "C- Input, Output, Storage", "D- User, Admin, Guest"], a: "A- System, Application, Utility", expl: "These are the main categories of software." },
+      { q: "Which phase involves creating high-level architecture?", options: ["A- Planning", "B- Analysis", "C- System Design", "D- Implementation"], a: "C- System Design", expl: "System Design creates the high-level architecture." },
+      { q: "A set of computers connected to share resources is a:", options: ["A- Database", "B- Processor", "C- Network", "D- Middleware"], a: "C- Network", expl: "Network allows sharing of resources." },
+      { q: "Which of these is a hardware output device?", options: ["A- Keyboard", "B- Mouse", "C- Printer", "D- Scanner"], a: "C- Printer", expl: "Printer is an output device." },
+      { q: "The process of designing user interaction is:", options: ["A- Data Flow Design", "B- Dialogue Design", "C- Database Design", "D- Network Design"], a: "B- Dialogue Design", expl: "Dialogue Design manages user-system conversation." },
+      { q: "In which SDLC stage do you monitor bugs?", options: ["A- Design", "B- Testing", "C- Operations and Maintenance", "D- Analysis"], a: "C- Operations and Maintenance", expl: "Maintenance phase includes monitoring and fixing bugs." },
+      { q: "Which system type has processing at each department?", options: ["A- Centralized", "B- Decentralized", "C- Unitary", "D- Singular"], a: "B- Decentralized", expl: "Decentralized system distributes processing." },
+      { q: "A Direct Cutover is part of which phase?", options: ["A- Maintenance", "B- Design", "C- Implementation", "D- Analysis"], a: "C- Implementation", expl: "Direct cutover is an implementation method." },
+      { q: "What is the goal of UI design?", options: ["A- Write code", "B- User interaction design", "C- Database management", "D- Fix hardware"], a: "B- User interaction design", expl: "UI design focuses on user experience." },
+      { q: "Which is System Software?", options: ["A- MS Word", "B- Device Drivers", "C- Games", "D- Browsers"], a: "B- Device Drivers", expl: "Device Drivers are system software." },
+      { q: "Analysis results include:", options: ["A- Final code", "B- Hardware purchase", "C- Feasibility study results", "D- User manuals"], a: "C- Feasibility study results", expl: "Feasibility study is part of analysis." },
+      { q: "Database software is used to manage:", options: ["A- Hardware", "B- Virtual resources", "C- Knowledge bases", "D- Cables"], a: "C- Knowledge bases", expl: "DBMS manages data and knowledge bases." },
+      { q: "Dialogue diagrams use:", options: ["A- Circle", "B- Triangle", "C- Box with 3 sections", "D- Diamond"], a: "C- Box with 3 sections", expl: "Dialogue diagrams use boxes with three sections." },
+      { q: "Scalability refers to:", options: ["A- Data size", "B- System growth ability", "C- Network speed", "D- User happiness"], a: "B- System growth ability", expl: "Scalability means the system's ability to grow." },
+      { q: "SDLC stands for:", options: ["A- System Design Logical Cycle", "B- Software Development Life Cycle", "C- System Development Life Cycle", "D- Standard Data Line Connection"], a: "C- System Development Life Cycle", expl: "Correct expansion of SDLC." },
+      { q: "Which coordinates hardware?", options: ["A- Users", "B- Application software", "C- System software", "D- Devices"], a: "C- System software", expl: "System software controls and coordinates hardware." },
+      { q: "Data are managed using:", options: ["A- CPU", "B- DBMS", "C- RAM", "D- BIOS"], a: "B- DBMS", expl: "DBMS is used to manage data." },
+      { q: "Firmware is:", options: ["A- Hardware", "B- Database", "C- Software", "D- Network"], a: "C- Software", expl: "Firmware is a type of software." },
+      { q: "Most important IS component?", options: ["A- Computers", "B- Data", "C- People", "D- Networks"], a: "C- People", expl: "People are the most important component." },
+      { q: "Phase after Analysis:", options: ["A- Planning", "B- Implementation", "C- System Design", "D- Maintenance"], a: "C- System Design", expl: "System Design comes after Analysis." },
+      { q: "DFD circle represents:", options: ["A- External entity", "B- Data store", "C- Process", "D- Data flow"], a: "C- Process", expl: "Circle represents Process in DFD." },
+      { q: "Highest level DFD:", options: ["A- Level 0", "B- Level 1", "C- Level 2", "D- Level 3"], a: "A- Level 0", expl: "Level 0 is the Context Diagram." },
+      { q: "Data store symbol:", options: ["A- Arrow", "B- Square", "C- Circle", "D- Open rectangle"], a: "D- Open rectangle", expl: "Open-ended rectangle is used for data store." },
+      { q: "NOT DFD component:", options: ["A- Relationship", "B- Process", "C- Data store", "D- External entity"], a: "A- Relationship", expl: "Relationship is not a component of DFD." },
+      { q: "Breaking process:", options: ["A- Normalization", "B- Decomposition", "C- Integration", "D- Encapsulation"], a: "B- Decomposition", expl: "Decomposition breaks high-level processes." },
+      { q: "Logical DFD shows:", options: ["A- Physical view", "B- Logical view", "C- Implementation", "D- Context only"], a: "B- Logical view", expl: "Logical DFD shows what the system does." },
+      { q: "Logic inside process:", options: ["A- Structured English", "B- Data store", "C- Entity", "D- Flow"], a: "A- Structured English", expl: "Structured English is used to describe process logic." },
+      { q: "Benefit of DFD:", options: ["A- Easy understanding", "B- Hardware details", "C- Auto coding", "D- No testing"], a: "A- Easy understanding", expl: "DFDs are easy for technical and non-technical users." },
+      { q: "Context diagram processes:", options: ["A- 0", "B- 1", "C- 5", "D- Many"], a: "B- 1", expl: "Context diagram has only one process." },
+      { q: "DFD is for:", options: ["A- Process modeling", "B- Data modeling", "C- Network modeling", "D- Object modeling"], a: "A- Process modeling", expl: "DFD is mainly for process modeling." },
+      { q: "External entity symbol:", options: ["A- Rectangle", "B- Circle", "C- Double line", "D- Oval"], a: "A- Rectangle", expl: "External entity is represented by a rectangle." },
+      { q: "SSAD stands for:", options: ["A- Simple System Analysis Design", "B- Structured System Analysis Design", "C- Standard System Analysis Development", "D- Sequential System Analysis Design"], a: "B- Structured System Analysis Design", expl: "Structured Systems Analysis and Design." },
+      { q: "Data flow occurs between:", options: ["A- Two data stores", "B- Two entities", "C- Process & data store", "D- Entity & data store"], a: "C- Process & data store", expl: "Data flow must go through a process." },
+      { q: "Data elements document:", options: ["A- System manual", "B- Data dictionary", "C- Project plan", "D- Design spec"], a: "B- Data dictionary", expl: "Data Dictionary defines all data elements." },
+      { q: "Grey hole:", options: ["A- No output", "B- No input", "C- Wrong output", "D- Perfect process"], a: "C- Wrong output", expl: "Grey hole means output is insufficient for the given input." },
+      { q: "Normalization reduces:", options: ["A- Data", "B- Fields", "C- Redundancy", "D- Database"], a: "C- Redundancy", expl: "Normalization minimizes data redundancy." },
+      { q: "NOT IS component:", options: ["A- Hardware", "B- Software", "C- Marketing", "D- Procedures"], a: "C- Marketing", expl: "Marketing is not a component of Information System." },
+      { q: "Raw facts:", options: ["A- Information", "B- Data", "C- Output", "D- Knowledge"], a: "B- Data", expl: "Raw facts are called Data." },
+      { q: "Controls hardware:", options: ["A- Application", "B- Utility", "C- System software", "D- Antivirus"], a: "C- System software", expl: "System software controls hardware." },
+      { q: "DBMS used for:", options: ["A- Delete hardware", "B- Manage databases", "C- Replace staff", "D- Speed CPU"], a: "B- Manage databases", expl: "DBMS is used to manage databases." },
+      { q: "Example IS:", options: ["A- Online banking", "B- Mouse", "C- Cable", "D- Scanner"], a: "A- Online banking", expl: "Online banking is a complete information system." },
+      { q: "Procedures help:", options: ["A- Speed CPU", "B- Standardize workflow", "C- Remove software", "D- Delete data"], a: "B- Standardize workflow", expl: "Procedures help standardize organizational workflow." },
+      { q: "End users:", options: ["A- Managers", "B- Accountants", "C- Engineers", "D- All"], a: "D- All", expl: "All mentioned are end users." },
+      { q: "IS cycle:", options: ["A- Delete", "B- Input-process-output", "C- Print", "D- Store-forget"], a: "B- Input-process-output", expl: "Basic information system cycle is Input → Process → Output." },
+      { q: "Security devices belong to:", options: ["A- Hardware", "B- Software", "C- Procedures", "D- Data"], a: "A- Hardware", expl: "Security devices are hardware components." },
+      { q: "Utility software used to:", options: ["A- Play games", "B- Maintain system", "C- Build hardware", "D- Replace OS"], a: "B- Maintain system", expl: "Utility software is used to maintain and protect the system." }
+    ];
 
-<script>
-const tfQuestions = [
-  {q:'1- Hardware includes physical equipment used for input, output, and processing.', a:'True'},
-  {q:'2- Software is the application program used to control and coordinate hardware.', a:'False'},
-  {q:'3- Data are organized facts used to generate information immediately.', a:'False'},
-  {q:'4- Database software is used for efficient access to required data.', a:'True'},
-  {q:'5- A Network consists of only one computer connected to a printer.', a:'False'},
-  {q:'6- People are the most important component of an information system.', a:'True'},
-  {q:'7- System design is the process of creating a high-level architecture for a software solution.', a:'True'},
-  {q:'8- The System Development Life Cycle (SDLC) has only 3 stages.', a:'False'},
-  {q:'9- User Interface (UI) design focuses on how a user interacts with a system.', a:'True'},
-  {q:'10- A Centralized System means data processing occurs in one single center.', a:'True'},
-  {q:'11- System Software includes Device Drivers and Firmware.', a:'True'},
-  {q:'12- Analysis is the stage where the actual code is written.', a:'False'},
-  {q:'13- Feasibility studies help determine if a project should move forward.', a:'True'},
-  {q:'14- Direct cutover is a method of moving components from an old system to a new one.', a:'True'},
-  {q:'15- Dialogue design is a sequence of information displayed to and obtained from a user.', a:'True'},
-  {q:'16- Operating systems are a type of Application Software.', a:'False'},
-  {q:'17- Maintenance is the last stage of the SDLC.', a:'True'},
-  {q:'18- Scalability is a decision made during the system design phase.', a:'True'},
-  {q:'19- Information systems cannot work without data.', a:'True'},
-  {q:'20- Secondary storage is used to store data temporarily during processing.', a:'False'},
-  {q:'21- User requirements are identified during the Design phase.', a:'False'},
-  {q:'22- Decentralized systems have a processing center for each major department.', a:'True'},
-  {q:'23- Utility software is a type of system software.', a:'True'},
-  {q:'24- Testing ensures the program is successful before client production.', a:'True'},
-  {q:'25- Dialogue diagrams use boxes with three sections.', a:'True'},
-  {q:'26- System design involves making decisions about security and performance.', a:'True'},
-  {q:'27- A Network allows for the sharing of resources like printers.', a:'True'},
-  {q:'28- Database Management Systems (DBMS) manage data storage.', a:'True'},
-  {q:'29- People are not considered a component of Information Systems.', a:'False'},
-  {q:'30- Processors are considered a hardware component.', a:'True'},
-  {q:'31- System design meets the constraints of a problem.', a:'True'},
-  {q:'32- Analysis phase results include a clear definition of the problem.', a:'True'},
-  {q:'33- The budget for a new system is determined after it is built.', a:'False'},
-  {q:'34- Monitoring for bugs occurs during the Operations and Maintenance phase.', a:'True'},
-  {q:'35- Dialogue diagrams represent the sequencing of displays.', a:'True'},
-  {q:'36- Input devices are part of the hardware structure.', a:'True'},
-  {q:'37- Application software coordinates hardware components.', a:'False'},
-  {q:'38- Data flows are a key consideration in system design.', a:'True'},
-  {q:'39- Decentralization can improve data processing speed for specific departments.', a:'True'},
-  {q:'40- Implementation includes the process of Direct Cutover.', a:'True'},
-  {q:'41- User Interface design includes the Principles for good design.', a:'True'},
-  {q:'42- System Analysis results include a description of the current system.', a:'True'},
-  {q:'43- Computer peripherals are NOT considered hardware.', a:'False'},
-  {q:'44- Operations and Maintenance identify parts of a system that need improving.', a:'True'},
-  {q:'45- A bidirectional line in a dialogue diagram connects sections.', a:'True'},
-  {q:'46- An information system consists of unrelated components.', a:'False'},
-  {q:'47- Hardware includes input, output, and processing devices.', a:'True'},
-  {q:'48- Software is only used for entertainment purposes.', a:'False'},
-  {q:'49- Data are raw facts that must be processed to become information.', a:'True'},
-  {q:'50- Database Management Systems (DBMS) manage data efficiently.', a:'True'},
-  {q:'51- Procedures include step-by-step instructions for tasks.', a:'True'},
-  {q:'52- Human resources include programmers and system analysts.', a:'True'},
-  {q:'53- The main purpose of an information system is to benefit end users.', a:'True'},
-  {q:'54- ERP systems are examples of information systems.', a:'True'},
-  {q:'55- Hardware can operate effectively without software.', a:'False'},
-  {q:'56- System Analysis focuses mainly on programming activities.', a:'False'},
-  {q:'57- The Planning Stage includes economic, technical, and operational feasibility.', a:'True'},
-  {q:'58- Functional requirements describe system performance and security only.', a:'False'},
-  {q:'59- Users, clients, and technical staff are primary stakeholders.', a:'True'},
-  {q:'60- Prototyping is used only after system implementation.', a:'False'}
-];
-
-const mcqQuestions = [
-  {q:'1- Which component is responsible for processing data?', o:['Software','Hardware','Databases','Networks'], a:'Hardware'},
-  {q:'2- Raw facts and figures describe which component?', o:['Information','Knowledge','Data','Software'], a:'Data'},
-  {q:'3- What are the three types of software mentioned?', o:['System, Application, Utility','Primary, Secondary, Tertiary','Input, Output, Storage','User, Admin, Guest'], a:'System, Application, Utility'},
-  {q:'4- Which phase involves creating high-level architecture?', o:['Planning','Analysis','System Design','Implementation'], a:'System Design'},
-  {q:'5- A set of computers connected to share resources is a:', o:['Database','Processor','Network','Middleware'], a:'Network'},
-  {q:'6- Which of these is a hardware output device?', o:['Keyboard','Mouse','Printer','Scanner'], a:'Printer'},
-  {q:'7- The process of designing the sequence for user interaction is:', o:['Data Flow Design','Dialogue Design','Database Design','Network Design'], a:'Dialogue Design'},
-  {q:'8- In which SDLC stage do you monitor for bugs?', o:['Design','Testing','Operations and Maintenance','Analysis'], a:'Operations and Maintenance'},
-  {q:'9- Which system type has processing at each department?', o:['Centralized','Decentralized','Unitary','Singular'], a:'Decentralized'},
-  {q:'10- A Direct Cutover is part of which phase?', o:['Maintenance','Design','Implementation','Analysis'], a:'Implementation'},
-  {q:'11- What is the goal of UI design?', o:['To write code','To design how users interact with the system','To manage databases','To fix hardware'], a:'To design how users interact with the system'},
-  {q:'12- Which software is classified as System Software?', o:['MS Word','Device Drivers','Games','Web Browsers'], a:'Device Drivers'},
-  {q:'13- Analysis results include which of the following?', o:['Final Code','Hardware Purchase','Feasibility study results','User Manuals'], a:'Feasibility study results'},
-  {q:'14- Database software is used to manage:', o:['Physical hardware','Virtual resources','Knowledge bases','Network cables'], a:'Knowledge bases'},
-  {q:'15- Dialogue diagrams use which symbol?', o:['Circle','Triangle','Box with three sections','Diamond'], a:'Box with three sections'},
-  {q:'16- Scalability refers to:', o:['Data size','System ability to grow','Network speed','User happiness'], a:'System ability to grow'},
-  {q:'17- SDLC stands for:', o:['System Design Logical Cycle','Software Development Life Cycle','System Development Life Cycle','Standard Data Line Connection'], a:'System Development Life Cycle'},
-  {q:'18- Which component coordinates hardware?', o:['Users','Application Software','System Software','Peripheral devices'], a:'System Software'},
-  {q:'19- Data are managed using:', o:['CPU','DBMS','RAM','BIOS'], a:'DBMS'},
-  {q:'20- Firmware is a type of:', o:['Hardware','Database','Software','Network'], a:'Software'},
-  {q:'21- Who is the most important component of an IS?', o:['Computers','Data','People','Networks'], a:'People'},
-  {q:'22- What determines hardware structure?', o:['Color of the office','Type and size of organization','The type of internet','The number of users only'], a:'Type and size of organization'},
-  {q:'23- Which phase follows Analysis?', o:['Planning','Implementation','System Design','Maintenance'], a:'System Design'},
-  {q:'24- Which involves creating a plan for a software solution?', o:['Maintenance','System Design','Sales','Training'], a:'System Design'},
-  {q:'25- What does a circle or rounded rectangle represent in a DFD?', o:['External Entity','Data Store','Process','Data Flow'], a:'Process'},
-  {q:'26- Which DFD level shows the most high-level view of a system?', o:['Level 0','Level 1','Level 2','Level 3'], a:'Level 0'},
-  {q:'27- A data store is represented by which symbol?', o:['Arrow','Square','Circle','Open-ended rectangle'], a:'Open-ended rectangle'},
-  {q:'28- Which of the following is NOT a component of a DFD?', o:['Relationship','Process','Data Store','External Entity'], a:'Relationship'},
-  {q:'29- Breaking a high-level process into smaller sub-processes is called:', o:['Normalization','Decomposition','Integration','Encapsulation'], a:'Decomposition'},
-  {q:'30- Which DFD shows what the system does without implementation details?', o:['Physical DFD','Logical DFD','Implementation DFD','Context DFD'], a:'Logical DFD'},
-  {q:'31- Which of these is used to describe the logic inside a process?', o:['Structured English','Data Store','External Entity','Data Flow'], a:'Structured English'},
-  {q:'32- What is the main benefit of using DFDs?', o:['Easy for technical and non-technical users to understand','Shows exact hardware requirements','Generates automatic code','Replaces the need for testing'], a:'Easy for technical and non-technical users to understand'},
-  {q:'33- The Context Diagram contains how many processes?', o:['Zero','One','Five','Unlimited'], a:'One'},
-  {q:'34- A DFD is a tool for:', o:['Process modeling','Data modeling','Network modeling','Object modeling'], a:'Process modeling'},
-  {q:'35- Which symbol is used for an external entity?', o:['Square/Rectangle','Circle','Double Line','Oval'], a:'Square/Rectangle'},
-  {q:'36- SSAD stands for:', o:['Simple System Analysis Design','Structured System Analysis Design','Standard System Analysis Development','Sequential System Analysis Design'], a:'Structured System Analysis Design'},
-  {q:'37- In a DFD, data flow can occur between:', o:['Two data stores','Two external entities','A process and a data store','An external entity and a data store'], a:'A process and a data store'},
-  {q:'38- The document that defines all data elements in the DFD is the:', o:['System Manual','Data Dictionary','Project Plan','Design Specification'], a:'Data Dictionary'},
-  {q:'39- What is a Grey Hole in a DFD?', o:['A process with no output','A process with no input','A process where output is insufficient based on input','A process that works perfectly'], a:'A process where output is insufficient based on input'},
-  {q:'40- By normalizing relations or sets of relations, one minimizes:', o:['Data','Fields','Redundancy','Database'], a:'Redundancy'},
-  {q:'41- Which of the following is NOT a component of an information system?', o:['Hardware','Software','Marketing','Procedures'], a:'Marketing'},
-  {q:'42- Raw facts before processing are called:', o:['Information','Data','Output','Knowledge'], a:'Data'},
-  {q:'43- Which software controls hardware?', o:['Application Software','Utility Software','System Software','Antivirus'], a:'System Software'},
-  {q:'44- DBMS is mainly used to:', o:['Delete hardware','Manage databases','Replace employees','Increase CPU speed'], a:'Manage databases'},
-  {q:'45- Which is an example of an information system?', o:['Online banking system','Mouse','Printer cable','Scanner only'], a:'Online banking system'},
-  {q:'46- Procedures help organizations to:', o:['Increase processor speed','Standardize workflow','Remove software','Delete data'], a:'Standardize workflow'},
-  {q:'47- End users of an information system include:', o:['Managers','Accountants','Engineers','All of the above'], a:'All of the above'},
-  {q:'48- An information system performs which cycle?', o:['Delete → Ignore → Stop','Input → Process → Output','Print → Shut down','Store → Forget'], a:'Input → Process → Output'},
-  {q:'49- Security devices belong to:', o:['Hardware','Software','Procedures','Data'], a:'Hardware'},
-  {q:'50- Utility software is mainly used to:', o:['Play games','Maintain and protect system','Build hardware','Replace OS'], a:'Maintain and protect system'}
-];
-
-function createQuestions(containerId, questions, type) {
-  const container = document.getElementById(containerId);
-
-  questions.forEach((item, index) => {
-    const box = document.createElement('div');
-    box.className = 'question-box';
-
-    let optionsHTML = '';
-
-    const options = type === 'tf' ? ['True','False'] : item.o;
-
-    options.forEach(option => {
-      optionsHTML += `
-        <label class="option">
-          <input type="radio" name="${type}${index}" value="${option}" onchange="instantCheck('${type}', ${index}, '${option(/'/g, "\'")}')">
-          ${option}
-        </label>`;
-    });${index}" value="${option}">
-          ${option}
-        </label>`;
-      });
-    }
-
-    box.innerHTML = `
-      <div class="question">${item.q}</div>
-      ${optionsHTML}
-      <div id="feedback-${type}${index}" style="margin-top:10px;font-weight:bold;"></div>
-    `;
-
-    container.appendChild(box);
-  });
-}
-
-createQuestions('tf-container', tfQuestions, 'tf');
-createQuestions('mcq-container', mcqQuestions, 'mcq');
-
-function instantCheck(type, index, selectedValue) {
-  const data = type === 'tf' ? tfQuestions[index] : mcqQuestions[index];
-  const feedback = document.getElementById(`feedback-${type}${index}`);
-  const allOptions = document.querySelectorAll(`input[name="${type}${index}"]`);
-
-  allOptions.forEach(opt => {
-    opt.parentElement.classList.remove('correct', 'wrong');
-
-    if(opt.value === data.a) {
-      opt.parentElement.classList.add('correct');
-    }
-  });
-
-  if(selectedValue === data.a) {
-    feedback.innerHTML = '✅ Correct Answer';
-  } else {
-    feedback.innerHTML = `❌ Wrong Answer — Correct Answer: ${data.a}`;
-
-    allOptions.forEach(opt => {
-      if(opt.checked && opt.value !== data.a) {
-        opt.parentElement.classList.add('wrong');
-      }
-    });
-  }
-}
-
-function checkAnswers() {
-  let score = 0;
-  let total = tfQuestions.length + mcqQuestions.length;
-
-  document.querySelectorAll('.option').forEach(el => {
-    el.classList.remove('correct', 'wrong');
-  });
-
-  tfQuestions.forEach((q, i) => {
-    const selected = document.querySelector(`input[name="tf${i}"]:checked`);
-    const allOptions = document.querySelectorAll(`input[name="tf${i}"]`);
-
-    allOptions.forEach(opt => {
-      if(opt.value === q.a) {
-        opt.parentElement.classList.add('correct');
-      }
-    });
-
-    if(selected) {
-      if(selected.value === q.a) {
-        score++;
-        selected.parentElement.innerHTML += ' ✅ Correct';
-      } else {
-        selected.parentElement.classList.add('wrong');
-        selected.parentElement.innerHTML += ` ❌ Wrong - Correct Answer: ${q.a}`;
-      }
-    }
-  });
-
-  mcqQuestions.forEach((q, i) => {
-    const selected = document.querySelector(`input[name="mcq${i}"]:checked`);
-    const allOptions = document.querySelectorAll(`input[name="mcq${i}"]`);
-
-    allOptions.forEach(opt => {
-      if(opt.value === q.a) {
-        opt.parentElement.classList.add('correct');
-      }
-    });
-
-    if(selected) {
-      if(selected.value === q.a) {
-        score++;
-        selected.parentElement.innerHTML += ' ✅ Correct';
-      } else {
-        selected.parentElement.classList.add('wrong');
-        selected.parentElement.innerHTML += ` ❌ Wrong - Correct Answer: ${q.a}`;
-      }
-    }
-  });
-
-  document.getElementById('score').innerHTML = `Your Score: ${score} / ${total}`;
-}
-</script>
-
-</body>
-</html>
+    // Render True/False
+    const tfContainer = document.getElementById('tf-questions');
+    trueFalseQuestions.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = "question-card border border-pink-200 rounded-3xl p-8 shadow-md";
+      div.innerHTML = `
+        <h3 class="text-xl font-semibold mb-6 text-pink-900">${i+1}. ${item.q}</h3>
+        <div class="flex gap-6">
+          <button onclick="checkTF(${i}, 'True', this)" class="px-10 py-4 rounded-2xl bg-pink-600 hover:bg-pink-700 text-white text-lg font-medium">True</button>
+          <button onclick="checkTF(${i}, 'False', this)" class="px-10 py-4 rounded-2xl border-2 border-pink-600 text-pink-700 hover:bg-pink-1
