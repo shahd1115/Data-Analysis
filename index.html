@@ -1,0 +1,106 @@
+export default function QuestionBankWebsite() { const trueFalseQuestions = [ { question: "Hardware includes physical equipment used for input, output, and processing.", answer: "True" }, { question: "Software is the application program used to control and coordinate hardware.", answer: "True" }, { question: "Data are organized facts used to generate information immediately.", answer: "False" }, { question: "Database software is used for efficient access to required data.", answer: "True" }, { question: "A Network consists of only one computer connected to a printer.", answer: "False" }, { question: "People are the most important component of an information system.", answer: "True" }, { question: "System design is the process of creating a high-level architecture for a software solution.", answer: "True" }, { question: "The System Development Life Cycle (SDLC) has only 3 stages.", answer: "False" }, { question: "User Interface (UI) design focuses on how a user interacts with a system.", answer: "True" }, { question: "A Centralized System means data processing occurs in one single center.", answer: "True" }, { question: "System Software includes Device Drivers and Firmware.", answer: "True" }, { question: "Analysis is the stage where the actual code is written.", answer: "False" }, { question: "Feasibility studies help determine if a project should move forward.", answer: "True" }, { question: "Direct cutover is a method of moving components from an old system to a new one.", answer: "True" }, { question: "Dialogue design is a sequence of information displayed to and obtained from a user.", answer: "True" }, { question: "Operating systems are a type of Application Software.", answer: "False" }, { question: "Maintenance is the last stage of the SDLC.", answer: "True" }, { question: "Scalability is a decision made during the system design phase.", answer: "True" }, { question: "Information systems cannot work without data.", answer: "True" }, { question: "Secondary storage is used to store data temporarily during processing.", answer: "False" }, { question: "User requirements are identified during the Design phase.", answer: "False" }, { question: "Decentralized systems have a processing center for each major department.", answer: "True" }, { question: "Utility software is a type of system software.", answer: "True" }, { question: "Testing ensures the program is successful before client production.", answer: "True" }, { question: "Dialogue diagrams use boxes with three sections.", answer: "True" }, { question: "System design involves making decisions about security and performance.", answer: "True" }, { question: "A Network allows for the sharing of resources like printers.", answer: "True" }, { question: "Database Management Systems (DBMS) manage data storage.", answer: "True" }, { question: "People are not considered a component of Information Systems.", answer: "False" }, { question: "Processors are considered a hardware component.", answer: "True" }, { question: "System design meets the constraints of a problem.", answer: "True" }, { question: "Analysis phase results include a clear definition of the problem.", answer: "True" }, { question: "The budget for a new system is determined after it is built.", answer: "False" }, { question: "Monitoring for bugs occurs during the Operations and Maintenance phase.", answer: "True" }, { question: "Dialogue diagrams represent the sequencing of displays.", answer: "True" }, { question: "Input devices are part of the hardware structure.", answer: "True" }, { question: "Application software coordinates hardware components.", answer: "False" }, { question: "Data flows are a key consideration in system design.", answer: "True" }, { question: "Decentralization can improve data processing speed for specific departments.", answer: "True" }, { question: "Implementation includes the process of Direct Cutover.", answer: "True" }, { question: "User Interface design includes the Principles for good design.", answer: "True" }, { question: "System Analysis results include a description of the current system.", answer: "True" }, { question: "Computer peripherals are NOT considered hardware.", answer: "False" }, { question: "Operations and Maintenance identify parts of a system that need improving.", answer: "True" }, { question: "A bidirectional line in a dialogue diagram connects sections.", answer: "True" }, { question: "An information system consists of unrelated components.", answer: "False" }, { question: "Hardware includes input, output, and processing devices.", answer: "True" }, { question: "Software is only used for entertainment purposes.", answer: "False" }, { question: "Data are raw facts that must be processed to become information.", answer: "True" }, { question: "Database Management Systems (DBMS) manage data efficiently.", answer: "True" }, { question: "Procedures include step-by-step instructions for tasks.", answer: "True" }, { question: "Human resources include programmers and system analysts.", answer: "True" }, { question: "The main purpose of an information system is to benefit end users.", answer: "True" }, { question: "ERP systems are examples of information systems.", answer: "True" }, { question: "Hardware can operate effectively without software.", answer: "False" }, { question: "System Analysis focuses mainly on programming activities.", answer: "False" }, { question: "The Planning Stage includes economic, technical, and operational feasibility.", answer: "True" }, { question: "Functional requirements describe system performance and security only.", answer: "False" }, { question: "Users, clients, and technical staff are primary stakeholders.", answer: "True" }, { question: "Prototyping is used only after system implementation.", answer: "False" } ];
+
+const mcqQuestions = [ { question: "Which component is responsible for processing data?", options: ["Software", "Hardware", "Databases", "Networks"], answer: "Hardware" }, { question: "Raw facts and figures describe which component?", options: ["Information", "Knowledge", "Data", "Software"], answer: "Data" }, { question: "What are the three types of software mentioned?", options: ["System, Application, Utility", "Primary, Secondary, Tertiary", "Input, Output, Storage", "User, Admin, Guest"], answer: "System, Application, Utility" }, { question: "Which phase involves creating high-level architecture?", options: ["Planning", "Analysis", "System Design", "Implementation"], answer: "System Design" }, { question: "A set of computers connected to share resources is a:", options: ["Database", "Processor", "Network", "Middleware"], answer: "Network" }, { question: "Which of these is a hardware output device?", options: ["Keyboard", "Mouse", "Printer", "Scanner"], answer: "Printer" }, { question: "The process of designing the sequence for user interaction is:", options: ["Data Flow Design", "Dialogue Design", "Database Design", "Network Design"], answer: "Dialogue Design" }, { question: "In which SDLC stage do you monitor for bugs?", options: ["Design", "Testing", "Operations and Maintenance", "Analysis"], answer: "Operations and Maintenance" }, { question: "Which system type has processing at each department?", options: ["Centralized", "Decentralized", "Unitary", "Singular"], answer: "Decentralized" }, { question: "A Direct Cutover is part of which phase?", options: ["Maintenance", "Design", "Implementation", "Analysis"], answer: "Implementation" }, { question: "What is the goal of UI design?", options: ["To write code", "To design how users interact with the system", "To manage databases", "To fix hardware"], answer: "To design how users interact with the system" }, { question: "Which software is classified as System Software?", options: ["MS Word", "Device Drivers", "Games", "Web Browsers"], answer: "Device Drivers" }, { question: "Analysis results include which of the following?", options: ["Final Code", "Hardware Purchase", "Feasibility study results", "User Manuals"], answer: "Feasibility study results" }, { question: "Database software is used to manage:", options: ["Physical hardware", "Virtual resources", "Knowledge bases", "Network cables"], answer: "Knowledge bases" }, { question: "Dialogue diagrams use which symbol?", options: ["Circle", "Triangle", "Box with three sections", "Diamond"], answer: "Box with three sections" }, { question: "Scalability refers to:", options: ["Data size", "System's ability to grow", "Network speed", "User happiness"], answer: "System's ability to grow" }, { question: "SDLC stands for:", options: ["System Design Logical Cycle", "Software Development Life Cycle", "System Development Life Cycle", "Standard Data Line Connection"], answer: "System Development Life Cycle" }, { question: "Which component coordinates hardware?", options: ["Users", "Application Software", "System Software", "Peripheral devices"], answer: "System Software" }, { question: "Data are managed using:", options: ["CPU", "DBMS", "RAM", "BIOS"], answer: "DBMS" }, { question: "Firmware is a type of:", options: ["Hardware", "Database", "Software", "Network"], answer: "Software" }, { question: "Who is the most important component of an IS?", options: ["Computers", "Data", "People", "Networks"], answer: "People" }, { question: "Which phase follows Analysis?", options: ["Planning", "Implementation", "System Design", "Maintenance"], answer: "System Design" }, { question: "What does a circle or rounded rectangle represent in a DFD?", options: ["External Entity", "Data Store", "Process", "Data Flow"], answer: "Process" }, { question: "Which DFD level shows the most high-level view of a system?", options: ["Level 0", "Level 1", "Level 2", "Level 3"], answer: "Level 0" }, { question: "A data store is represented by which symbol?", options: ["Arrow", "Square", "Circle", "Open-ended rectangle"], answer: "Open-ended rectangle" }, { question: "Which of the following is NOT a component of a DFD?", options: ["Relationship", "Process", "Data Store", "External Entity"], answer: "Relationship" }, { question: "Breaking a high-level process into smaller sub-processes is called:", options: ["Normalization", "Decomposition", "Integration", "Encapsulation"], answer: "Decomposition" }, { question: "Which DFD shows what the system does without implementation details?", options: ["Physical DFD", "Logical DFD", "Implementation DFD", "Context DFD"], answer: "Logical DFD" }, { question: "Which of these is used to describe the logic inside a process?", options: ["Structured English", "Data Store", "External Entity", "Data Flow"], answer: "Structured English" }, { question: "What is the main benefit of using DFDs?", options: ["Easy for technical and non-technical users to understand", "Shows exact hardware requirements", "Generates automatic code", "Replaces the need for testing"], answer: "Easy for technical and non-technical users to understand" }, { question: "The Context Diagram contains how many processes?", options: ["Zero", "One", "Five", "Unlimited"], answer: "One" }, { question: "A DFD is a tool for:", options: ["Process modeling", "Data modeling", "Network modeling", "Object modeling"], answer: "Process modeling" }, { question: "Which symbol is used for an external entity?", options: ["Square/Rectangle", "Circle", "Double Line", "Oval"], answer: "Square/Rectangle" }, { question: "SSAD stands for:", options: ["Simple System Analysis Design", "Structured System Analysis Design", "Standard System Analysis Development", "Sequential System Analysis Design"], answer: "Structured System Analysis Design" }, { question: "In a DFD, data flow can occur between:", options: ["Two data stores", "Two external entities", "A process and a data store", "An external entity and a data store"], answer: "A process and a data store" }, { question: "The document that defines all data elements in the DFD is the:", options: ["System Manual", "Data Dictionary", "Project Plan", "Design Specification"], answer: "Data Dictionary" }, { question: "What is a Grey Hole in a DFD?", options: ["A process with no output", "A process with no input", "A process where output is insufficient based on input", "A process that works perfectly"], answer: "A process where output is insufficient based on input" }, { question: "By normalizing relations or sets of relations, one minimizes:", options: ["Data", "Fields", "Redundancy", "Database"], answer: "Redundancy" }, { question: "Which of the following is NOT a component of an information system?", options: ["Hardware", "Software", "Marketing", "Procedures"], answer: "Marketing" }, { question: "Raw facts before processing are called:", options: ["Information", "Data", "Output", "Knowledge"], answer: "Data" }, { question: "Which software controls hardware?", options: ["Application Software", "Utility Software", "System Software", "Antivirus"], answer: "System Software" }, { question: "DBMS is mainly used to:", options: ["Delete hardware", "Manage databases", "Replace employees", "Increase CPU speed"], answer: "Manage databases" }, { question: "Which is an example of an information system?", options: ["Online banking system", "Mouse", "Printer cable", "Scanner only"], answer: "Online banking system" }, { question: "Procedures help organizations to:", options: ["Increase processor speed", "Standardize workflow", "Remove software", "Delete data"], answer: "Standardize workflow" }, { question: "End users of an information system include:", options: ["Managers", "Accountants", "Engineers", "All of the above"], answer: "All of the above" }, { question: "An information system performs which cycle?", options: ["Delete → Ignore → Stop", "Input → Process → Output", "Print → Shut down", "Store → Forget"], answer: "Input → Process → Output" }, { question: "Security devices belong to:", options: ["Hardware", "Software", "Procedures", "Data"], answer: "Hardware" }, { question: "Utility software is mainly used to:", options: ["Play games", "Maintain and protect system", "Build hardware", "Replace OS"], answer: "Maintain and protect system" } ];
+
+const checkAnswer = (index, selected) => { const result = document.getElementById(result-${index});
+
+if (selected === trueFalseQuestions[index].answer) {
+  result.innerHTML = `✅ Correct <br/> ${trueFalseQuestions[index].explanation}`;
+  result.className = "mt-3 text-green-600 font-semibold";
+} else {
+  result.innerHTML = `❌ Wrong <br/> Correct Answer: ${trueFalseQuestions[index].answer}<br/>${trueFalseQuestions[index].explanation}`}`;
+  result.className = "mt-3 text-green-600 font-semibold";
+} else {
+  result.innerHTML = `❌ Wrong <br/> Correct Answer: ${questions[index].answer}<br/>${questions[index].explanation}`;
+  result.className = "mt-3 text-red-600 font-semibold";
+}
+
+};
+
+return ( <div className="min-h-screen bg-gray-100 p-6"> <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-3xl p-8"> <h1 className="text-4xl font-bold text-center mb-2"> System Analysis & Design </h1>
+
+<p className="text-center text-gray-600 mb-8">
+      Interactive Question Bank
+    </p>
+
+    <div className="space-y-8">
+      {trueFalseQuestions.map((q, index) => (
+        <div
+          key={index}
+          className="border rounded-2xl p-6 shadow-sm bg-gray-50"
+        >
+          <h2 className="text-xl font-semibold mb-4">
+            {index + 1}. {q.question}
+          </h2>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => checkAnswer(index, "True")}
+              className="px-6 py-2 rounded-xl bg-black text-white hover:scale-105 transition"
+            >
+              True
+            </button>
+
+            <button
+              onClick={() => checkAnswer(index, "False")}
+              className="px-6 py-2 rounded-xl border border-black hover:bg-black hover:text-white transition"
+            >
+              False
+            </button>
+          </div>
+
+          <div id={`result-${index}`}></div>
+        </div>
+      ))}
+    </div>
+
+    </div>
+
+    <h2 className="text-3xl font-bold mt-14 mb-6 text-center">
+      Multiple Choice Questions
+    </h2>
+
+    <div className="space-y-8">
+      {mcqQuestions.map((q, index) => (
+        <div
+          key={index}
+          className="border rounded-2xl p-6 shadow-sm bg-gray-50"
+        >
+          <h2 className="text-xl font-semibold mb-4">
+            {index + 1}. {q.question}
+          </h2>
+
+          <div className="grid gap-3">
+            {q.options.map((option, optionIndex) => (
+              <button
+                key={optionIndex}
+                onClick={() => {
+                  const result = document.getElementById(`mcq-${index}`);
+
+                  if (option === q.answer) {
+                    result.innerHTML = `✅ Correct <br/> ${q.explanation}`;
+                    result.className = "mt-3 text-green-600 font-semibold";
+                  } else {
+                    result.innerHTML = `❌ Wrong <br/> Correct Answer: ${q.answer}<br/>${q.explanation}`;
+                    result.className = "mt-3 text-red-600 font-semibold";
+                  }
+                }}
+                className="border rounded-xl p-3 hover:bg-black hover:text-white transition"
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          <div id={`mcq-${index}`}></div>
+        </div>
+      ))}
+    </div>
+
+    <footer className="text-center mt-10 text-gray-500">
+      Made for studying System Analysis & Design
+    </footer>
+  </div>
+</div>
+
+); }
