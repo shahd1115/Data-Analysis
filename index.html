@@ -1,228 +1,339 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Bank - Data Analysis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            background-color: #ffe4e1;
-        }
-        .question-card {
-            transition: all 0.3s;
-        }
-        .option:hover {
-            background-color: #fdf2f2;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question Bank - Data Analysis</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      background-color: #ffdce8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      margin-top: 40px;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .question-box {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 15px;
+      max-width: 900px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .question {
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .option {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      background-color: #ffeaf1;
+    }
+
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ff8fb1;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'Times New Roman', serif;
+    }
+
+    button:hover {
+      background-color: #ff6f99;
+    }
+
+    .correct {
+      background-color: #b8f5b1 !important;
+    }
+
+    .wrong {
+      background-color: #ffb3b3 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 28px;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="min-h-screen">
-    <div class="max-w-4xl mx-auto p-6">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-rose-700">Question Bank - Data Analysis</h1>
-            <p class="text-gray-700 mt-3 text-lg">60 سؤال صواب/خطأ + 50 سؤال اختيار متعدد</p>
-        </header>
+<body>
 
-        <!-- Tabs -->
-        <div class="flex justify-center mb-8 border-b border-rose-300">
-            <button onclick="switchTab(0)" id="tab0" class="tab-button px-8 py-3 font-medium border-b-4 border-rose-600 text-rose-700 text-lg">صواب/خطأ (60)</button>
-            <button onclick="switchTab(1)" id="tab1" class="tab-button px-8 py-3 font-medium text-gray-600 hover:text-rose-700 text-lg">اختيار متعدد (50)</button>
-        </div>
+<h1>Question Bank - Data Analysis</h1>
 
-        <!-- True/False Section -->
-        <div id="tf-section">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <span class="text-lg text-rose-700">السؤال</span>
-                    <span id="current-tf" class="text-3xl font-bold text-rose-800">1</span>
-                    <span class="text-gray-600">/60</span>
-                </div>
-                <button onclick="resetQuiz(0)" class="text-rose-600 hover:underline flex items-center gap-1">
-                    <i class="fas fa-redo"></i> إعادة
-                </button>
-            </div>
+<div class="section-title">True / False Questions</div>
+<div id="tf-container"></div>
 
-            <div id="tf-question" class="question-card bg-white rounded-3xl shadow-xl p-10 mb-8">
-                <p id="tf-text" class="text-2xl leading-relaxed mb-10"></p>
-                <div class="grid grid-cols-2 gap-6">
-                    <button onclick="answerTF(true)" class="option p-8 rounded-2xl border-2 border-emerald-400 hover:border-emerald-600 text-xl font-medium">صواب (True)</button>
-                    <button onclick="answerTF(false)" class="option p-8 rounded-2xl border-2 border-rose-400 hover:border-rose-600 text-xl font-medium">خطأ (False)</button>
-                </div>
-            </div>
+<div class="section-title">MCQ Questions</div>
+<div id="mcq-container"></div>
 
-            <div id="tf-result" class="hidden bg-white rounded-3xl shadow p-8 mb-8">
-                <div id="tf-feedback" class="text-2xl mb-4"></div>
-                <div id="tf-explanation" class="text-lg leading-relaxed"></div>
-            </div>
+<button onclick="checkAnswers()">Submit Answers</button>
+<div id="score"></div>
 
-            <div class="flex justify-between">
-                <button onclick="prevTF()" class="px-8 py-4 bg-gray-200 hover:bg-gray-300 rounded-2xl">السابق</button>
-                <button onclick="nextTF()" class="px-10 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl">التالي</button>
-            </div>
-        </div>
+<script>
+const tfQuestions = [
+  {q:'1- Hardware includes physical equipment used for input, output, and processing.', a:'True'},
+  {q:'2- Software is the application program used to control and coordinate hardware.', a:'False'},
+  {q:'3- Data are organized facts used to generate information immediately.', a:'False'},
+  {q:'4- Database software is used for efficient access to required data.', a:'True'},
+  {q:'5- A Network consists of only one computer connected to a printer.', a:'False'},
+  {q:'6- People are the most important component of an information system.', a:'True'},
+  {q:'7- System design is the process of creating a high-level architecture for a software solution.', a:'True'},
+  {q:'8- The System Development Life Cycle (SDLC) has only 3 stages.', a:'False'},
+  {q:'9- User Interface (UI) design focuses on how a user interacts with a system.', a:'True'},
+  {q:'10- A Centralized System means data processing occurs in one single center.', a:'True'},
+  {q:'11- System Software includes Device Drivers and Firmware.', a:'True'},
+  {q:'12- Analysis is the stage where the actual code is written.', a:'False'},
+  {q:'13- Feasibility studies help determine if a project should move forward.', a:'True'},
+  {q:'14- Direct cutover is a method of moving components from an old system to a new one.', a:'True'},
+  {q:'15- Dialogue design is a sequence of information displayed to and obtained from a user.', a:'True'},
+  {q:'16- Operating systems are a type of Application Software.', a:'False'},
+  {q:'17- Maintenance is the last stage of the SDLC.', a:'True'},
+  {q:'18- Scalability is a decision made during the system design phase.', a:'True'},
+  {q:'19- Information systems cannot work without data.', a:'True'},
+  {q:'20- Secondary storage is used to store data temporarily during processing.', a:'False'},
+  {q:'21- User requirements are identified during the Design phase.', a:'False'},
+  {q:'22- Decentralized systems have a processing center for each major department.', a:'True'},
+  {q:'23- Utility software is a type of system software.', a:'True'},
+  {q:'24- Testing ensures the program is successful before client production.', a:'True'},
+  {q:'25- Dialogue diagrams use boxes with three sections.', a:'True'},
+  {q:'26- System design involves making decisions about security and performance.', a:'True'},
+  {q:'27- A Network allows for the sharing of resources like printers.', a:'True'},
+  {q:'28- Database Management Systems (DBMS) manage data storage.', a:'True'},
+  {q:'29- People are not considered a component of Information Systems.', a:'False'},
+  {q:'30- Processors are considered a hardware component.', a:'True'},
+  {q:'31- System design meets the constraints of a problem.', a:'True'},
+  {q:'32- Analysis phase results include a clear definition of the problem.', a:'True'},
+  {q:'33- The budget for a new system is determined after it is built.', a:'False'},
+  {q:'34- Monitoring for bugs occurs during the Operations and Maintenance phase.', a:'True'},
+  {q:'35- Dialogue diagrams represent the sequencing of displays.', a:'True'},
+  {q:'36- Input devices are part of the hardware structure.', a:'True'},
+  {q:'37- Application software coordinates hardware components.', a:'False'},
+  {q:'38- Data flows are a key consideration in system design.', a:'True'},
+  {q:'39- Decentralization can improve data processing speed for specific departments.', a:'True'},
+  {q:'40- Implementation includes the process of Direct Cutover.', a:'True'},
+  {q:'41- User Interface design includes the Principles for good design.', a:'True'},
+  {q:'42- System Analysis results include a description of the current system.', a:'True'},
+  {q:'43- Computer peripherals are NOT considered hardware.', a:'False'},
+  {q:'44- Operations and Maintenance identify parts of a system that need improving.', a:'True'},
+  {q:'45- A bidirectional line in a dialogue diagram connects sections.', a:'True'},
+  {q:'46- An information system consists of unrelated components.', a:'False'},
+  {q:'47- Hardware includes input, output, and processing devices.', a:'True'},
+  {q:'48- Software is only used for entertainment purposes.', a:'False'},
+  {q:'49- Data are raw facts that must be processed to become information.', a:'True'},
+  {q:'50- Database Management Systems (DBMS) manage data efficiently.', a:'True'},
+  {q:'51- Procedures include step-by-step instructions for tasks.', a:'True'},
+  {q:'52- Human resources include programmers and system analysts.', a:'True'},
+  {q:'53- The main purpose of an information system is to benefit end users.', a:'True'},
+  {q:'54- ERP systems are examples of information systems.', a:'True'},
+  {q:'55- Hardware can operate effectively without software.', a:'False'},
+  {q:'56- System Analysis focuses mainly on programming activities.', a:'False'},
+  {q:'57- The Planning Stage includes economic, technical, and operational feasibility.', a:'True'},
+  {q:'58- Functional requirements describe system performance and security only.', a:'False'},
+  {q:'59- Users, clients, and technical staff are primary stakeholders.', a:'True'},
+  {q:'60- Prototyping is used only after system implementation.', a:'False'}
+];
 
-        <!-- MCQ Section -->
-        <div id="mcq-section" class="hidden">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <span class="text-lg text-rose-700">السؤال</span>
-                    <span id="current-mcq" class="text-3xl font-bold text-rose-800">1</span>
-                    <span class="text-gray-600">/50</span>
-                </div>
-                <button onclick="resetQuiz(1)" class="text-rose-600 hover:underline flex items-center gap-1">
-                    <i class="fas fa-redo"></i> إعادة
-                </button>
-            </div>
+const mcqQuestions = [
+  {q:'1- Which component is responsible for processing data?', o:['Software','Hardware','Databases','Networks'], a:'Hardware'},
+  {q:'2- Raw facts and figures describe which component?', o:['Information','Knowledge','Data','Software'], a:'Data'},
+  {q:'3- What are the three types of software mentioned?', o:['System, Application, Utility','Primary, Secondary, Tertiary','Input, Output, Storage','User, Admin, Guest'], a:'System, Application, Utility'},
+  {q:'4- Which phase involves creating high-level architecture?', o:['Planning','Analysis','System Design','Implementation'], a:'System Design'},
+  {q:'5- A set of computers connected to share resources is a:', o:['Database','Processor','Network','Middleware'], a:'Network'},
+  {q:'6- Which of these is a hardware output device?', o:['Keyboard','Mouse','Printer','Scanner'], a:'Printer'},
+  {q:'7- The process of designing the sequence for user interaction is:', o:['Data Flow Design','Dialogue Design','Database Design','Network Design'], a:'Dialogue Design'},
+  {q:'8- In which SDLC stage do you monitor for bugs?', o:['Design','Testing','Operations and Maintenance','Analysis'], a:'Operations and Maintenance'},
+  {q:'9- Which system type has processing at each department?', o:['Centralized','Decentralized','Unitary','Singular'], a:'Decentralized'},
+  {q:'10- A Direct Cutover is part of which phase?', o:['Maintenance','Design','Implementation','Analysis'], a:'Implementation'},
+  {q:'11- What is the goal of UI design?', o:['To write code','To design how users interact with the system','To manage databases','To fix hardware'], a:'To design how users interact with the system'},
+  {q:'12- Which software is classified as System Software?', o:['MS Word','Device Drivers','Games','Web Browsers'], a:'Device Drivers'},
+  {q:'13- Analysis results include which of the following?', o:['Final Code','Hardware Purchase','Feasibility study results','User Manuals'], a:'Feasibility study results'},
+  {q:'14- Database software is used to manage:', o:['Physical hardware','Virtual resources','Knowledge bases','Network cables'], a:'Knowledge bases'},
+  {q:'15- Dialogue diagrams use which symbol?', o:['Circle','Triangle','Box with three sections','Diamond'], a:'Box with three sections'},
+  {q:'16- Scalability refers to:', o:['Data size','System ability to grow','Network speed','User happiness'], a:'System ability to grow'},
+  {q:'17- SDLC stands for:', o:['System Design Logical Cycle','Software Development Life Cycle','System Development Life Cycle','Standard Data Line Connection'], a:'System Development Life Cycle'},
+  {q:'18- Which component coordinates hardware?', o:['Users','Application Software','System Software','Peripheral devices'], a:'System Software'},
+  {q:'19- Data are managed using:', o:['CPU','DBMS','RAM','BIOS'], a:'DBMS'},
+  {q:'20- Firmware is a type of:', o:['Hardware','Database','Software','Network'], a:'Software'},
+  {q:'21- Who is the most important component of an IS?', o:['Computers','Data','People','Networks'], a:'People'},
+  {q:'22- What determines hardware structure?', o:['Color of the office','Type and size of organization','The type of internet','The number of users only'], a:'Type and size of organization'},
+  {q:'23- Which phase follows Analysis?', o:['Planning','Implementation','System Design','Maintenance'], a:'System Design'},
+  {q:'24- Which involves creating a plan for a software solution?', o:['Maintenance','System Design','Sales','Training'], a:'System Design'},
+  {q:'25- What does a circle or rounded rectangle represent in a DFD?', o:['External Entity','Data Store','Process','Data Flow'], a:'Process'},
+  {q:'26- Which DFD level shows the most high-level view of a system?', o:['Level 0','Level 1','Level 2','Level 3'], a:'Level 0'},
+  {q:'27- A data store is represented by which symbol?', o:['Arrow','Square','Circle','Open-ended rectangle'], a:'Open-ended rectangle'},
+  {q:'28- Which of the following is NOT a component of a DFD?', o:['Relationship','Process','Data Store','External Entity'], a:'Relationship'},
+  {q:'29- Breaking a high-level process into smaller sub-processes is called:', o:['Normalization','Decomposition','Integration','Encapsulation'], a:'Decomposition'},
+  {q:'30- Which DFD shows what the system does without implementation details?', o:['Physical DFD','Logical DFD','Implementation DFD','Context DFD'], a:'Logical DFD'},
+  {q:'31- Which of these is used to describe the logic inside a process?', o:['Structured English','Data Store','External Entity','Data Flow'], a:'Structured English'},
+  {q:'32- What is the main benefit of using DFDs?', o:['Easy for technical and non-technical users to understand','Shows exact hardware requirements','Generates automatic code','Replaces the need for testing'], a:'Easy for technical and non-technical users to understand'},
+  {q:'33- The Context Diagram contains how many processes?', o:['Zero','One','Five','Unlimited'], a:'One'},
+  {q:'34- A DFD is a tool for:', o:['Process modeling','Data modeling','Network modeling','Object modeling'], a:'Process modeling'},
+  {q:'35- Which symbol is used for an external entity?', o:['Square/Rectangle','Circle','Double Line','Oval'], a:'Square/Rectangle'},
+  {q:'36- SSAD stands for:', o:['Simple System Analysis Design','Structured System Analysis Design','Standard System Analysis Development','Sequential System Analysis Design'], a:'Structured System Analysis Design'},
+  {q:'37- In a DFD, data flow can occur between:', o:['Two data stores','Two external entities','A process and a data store','An external entity and a data store'], a:'A process and a data store'},
+  {q:'38- The document that defines all data elements in the DFD is the:', o:['System Manual','Data Dictionary','Project Plan','Design Specification'], a:'Data Dictionary'},
+  {q:'39- What is a Grey Hole in a DFD?', o:['A process with no output','A process with no input','A process where output is insufficient based on input','A process that works perfectly'], a:'A process where output is insufficient based on input'},
+  {q:'40- By normalizing relations or sets of relations, one minimizes:', o:['Data','Fields','Redundancy','Database'], a:'Redundancy'},
+  {q:'41- Which of the following is NOT a component of an information system?', o:['Hardware','Software','Marketing','Procedures'], a:'Marketing'},
+  {q:'42- Raw facts before processing are called:', o:['Information','Data','Output','Knowledge'], a:'Data'},
+  {q:'43- Which software controls hardware?', o:['Application Software','Utility Software','System Software','Antivirus'], a:'System Software'},
+  {q:'44- DBMS is mainly used to:', o:['Delete hardware','Manage databases','Replace employees','Increase CPU speed'], a:'Manage databases'},
+  {q:'45- Which is an example of an information system?', o:['Online banking system','Mouse','Printer cable','Scanner only'], a:'Online banking system'},
+  {q:'46- Procedures help organizations to:', o:['Increase processor speed','Standardize workflow','Remove software','Delete data'], a:'Standardize workflow'},
+  {q:'47- End users of an information system include:', o:['Managers','Accountants','Engineers','All of the above'], a:'All of the above'},
+  {q:'48- An information system performs which cycle?', o:['Delete → Ignore → Stop','Input → Process → Output','Print → Shut down','Store → Forget'], a:'Input → Process → Output'},
+  {q:'49- Security devices belong to:', o:['Hardware','Software','Procedures','Data'], a:'Hardware'},
+  {q:'50- Utility software is mainly used to:', o:['Play games','Maintain and protect system','Build hardware','Replace OS'], a:'Maintain and protect system'}
+];
 
-            <div id="mcq-question" class="question-card bg-white rounded-3xl shadow-xl p-10 mb-8">
-                <p id="mcq-text" class="text-2xl leading-relaxed mb-10"></p>
-                <div id="mcq-options" class="space-y-4"></div>
-            </div>
+function createQuestions(containerId, questions, type) {
+  const container = document.getElementById(containerId);
 
-            <div id="mcq-result" class="hidden bg-white rounded-3xl shadow p-8 mb-8">
-                <div id="mcq-feedback" class="text-2xl mb-4"></div>
-                <div id="mcq-explanation" class="text-lg leading-relaxed"></div>
-            </div>
+  questions.forEach((item, index) => {
+    const box = document.createElement('div');
+    box.className = 'question-box';
 
-            <div class="flex justify-between">
-                <button onclick="prevMCQ()" class="px-8 py-4 bg-gray-200 hover:bg-gray-300 rounded-2xl">السابق</button>
-                <button onclick="nextMCQ()" class="px-10 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl">التالي</button>
-            </div>
-        </div>
+    let optionsHTML = '';
 
-        <!-- Score -->
-        <div class="mt-12 bg-white rounded-3xl p-8 shadow-xl">
-            <h3 class="font-bold text-2xl mb-6 text-center text-rose-800">نتيجتك</h3>
-            <div class="grid grid-cols-2 gap-8 text-center">
-                <div>
-                    <div id="tf-score" class="text-5xl font-bold text-emerald-600">0/60</div>
-                    <p class="text-gray-600">صواب/خطأ</p>
-                </div>
-                <div>
-                    <div id="mcq-score" class="text-5xl font-bold text-violet-600">0/50</div>
-                    <p class="text-gray-600">اختيار متعدد</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    const options = type === 'tf' ? ['True','False'] : item.o;
 
-    <script>
-        // 60 True/False Questions
-        const tfQuestions = [
-            {q: "Hardware includes physical equipment used for input, output, and processing.", a: true, exp: "صحيح"},
-            {q: "Software is the application program used to control and coordinate hardware.", a: true, exp: "صحيح"},
-            {q: "Data are organized facts used to generate information immediately.", a: false, exp: "البيانات هي حقائق خام غير منظمة"},
-            {q: "Database software is used for efficient access to required data.", a: true, exp: "صحيح"},
-            {q: "A Network consists of only one computer connected to a printer.", a: false, exp: "الشبكة مجموعة أجهزة مترابطة لمشاركة الموارد"},
-            {q: "People are the most important component of an information system.", a: true, exp: "صحيح"},
-            {q: "System design is the process of creating a high-level architecture for a software solution.", a: true, exp: "صحيح"},
-            {q: "The System Development Life Cycle (SDLC) has only 3 stages.", a: false, exp: "يتكون SDLC من مراحل متعددة"},
-            {q: "User Interface (UI) design focuses on how a user interacts with a system.", a: true, exp: "صحيح"},
-            {q: 'A "Centralized System" means data processing occurs in one single center.', a: true, exp: "صحيح"},
-            // يمكن إضافة باقي الأسئلة الـ 60 هنا
-            {q: "Information systems cannot work without data.", a: true, exp: "صحيح"},
-            {q: "Secondary storage is used to store data temporarily during processing.", a: false, exp: "يُستخدم للتخزين الدائم"},
-            {q: "User requirements are identified during the Design phase.", a: false, exp: "تُحدد في مرحلة التحليل"},
-            // ... أكمل باقي الأسئلة حسب الحاجة
-        ];
+    options.forEach(option => {
+      optionsHTML += `
+        <label class="option">
+          <input type="radio" name="${type}${index}" value="${option}" onchange="instantCheck('${type}', ${index}, '${option(/'/g, "\'")}')">
+          ${option}
+        </label>`;
+    });${index}" value="${option}">
+          ${option}
+        </label>`;
+      });
+    }
 
-        // 50 MCQ Questions
-        const mcqQuestions = [
-            {
-                q: "Which component is responsible for processing data?",
-                options: ["Software", "Hardware", "Databases", "Networks"],
-                correct: 1,
-                exp: "Hardware هو المسؤول عن معالجة البيانات"
-            },
-            {
-                q: '"Raw facts and figures" describe which component?',
-                options: ["Information", "Knowledge", "Data", "Software"],
-                correct: 2,
-                exp: "Data هي الحقائق الخام"
-            },
-            // ... أضف باقي الأسئلة هنا
-        ];
+    box.innerHTML = `
+      <div class="question">${item.q}</div>
+      ${optionsHTML}
+      <div id="feedback-${type}${index}" style="margin-top:10px;font-weight:bold;"></div>
+    `;
 
-        let currentTF = 0, currentMCQ = 0;
-        let tfAnswers = new Array(60).fill(null);
-        let mcqAnswers = new Array(50).fill(null);
+    container.appendChild(box);
+  });
+}
 
-        function switchTab(n) {
-            document.getElementById("tf-section").classList.toggle("hidden", n !== 0);
-            document.getElementById("mcq-section").classList.toggle("hidden", n === 0);
-        }
+createQuestions('tf-container', tfQuestions, 'tf');
+createQuestions('mcq-container', mcqQuestions, 'mcq');
 
-        function renderTF() {
-            document.getElementById("current-tf").textContent = currentTF + 1;
-            document.getElementById("tf-text").textContent = tfQuestions[currentTF].q;
-            document.getElementById("tf-result").classList.add("hidden");
-        }
+function instantCheck(type, index, selectedValue) {
+  const data = type === 'tf' ? tfQuestions[index] : mcqQuestions[index];
+  const feedback = document.getElementById(`feedback-${type}${index}`);
+  const allOptions = document.querySelectorAll(`input[name="${type}${index}"]`);
 
-        function answerTF(ans) {
-            tfAnswers[currentTF] = ans;
-            const q = tfQuestions[currentTF];
-            const isCorrect = ans === q.a;
-            document.getElementById("tf-feedback").innerHTML = isCorrect ? 
-                `<span class="text-emerald-600">✅ إجابة صحيحة</span>` : 
-                `<span class="text-rose-600">❌ إجابة خاطئة</span>`;
-            document.getElementById("tf-explanation").innerHTML = `<strong>الشرح:</strong> ${q.exp}`;
-            document.getElementById("tf-result").classList.remove("hidden");
-            updateScore();
-        }
+  allOptions.forEach(opt => {
+    opt.parentElement.classList.remove('correct', 'wrong');
 
-        function nextTF() { if(currentTF < tfQuestions.length-1) { currentTF++; renderTF(); }}
-        function prevTF() { if(currentTF > 0) { currentTF--; renderTF(); }}
+    if(opt.value === data.a) {
+      opt.parentElement.classList.add('correct');
+    }
+  });
 
-        function renderMCQ() {
-            document.getElementById("current-mcq").textContent = currentMCQ + 1;
-            document.getElementById("mcq-text").textContent = mcqQuestions[currentMCQ].q;
-            const container = document.getElementById("mcq-options");
-            container.innerHTML = "";
-            mcqQuestions[currentMCQ].options.forEach((opt, i) => {
-                const btn = document.createElement("button");
-                btn.className = "w-full text-right p-5 rounded-2xl border border-gray-300 hover:border-rose-400 text-lg";
-                btn.textContent = `${String.fromCharCode(65+i)}. ${opt}`;
-                btn.onclick = () => answerMCQ(i);
-                container.appendChild(btn);
-            });
-            document.getElementById("mcq-result").classList.add("hidden");
-        }
+  if(selectedValue === data.a) {
+    feedback.innerHTML = '✅ Correct Answer';
+  } else {
+    feedback.innerHTML = `❌ Wrong Answer — Correct Answer: ${data.a}`;
 
-        function answerMCQ(selected) {
-            mcqAnswers[currentMCQ] = selected;
-            const q = mcqQuestions[currentMCQ];
-            const isCorrect = selected === q.correct;
-            document.getElementById("mcq-feedback").innerHTML = isCorrect ? 
-                `<span class="text-emerald-600">✅ صحيح</span>` : 
-                `<span class="text-rose-600">❌ الإجابة الصحيحة: ${String.fromCharCode(65 + q.correct)}</span>`;
-            document.getElementById("mcq-explanation").innerHTML = `<strong>الشرح:</strong> ${q.exp}`;
-            document.getElementById("mcq-result").classList.remove("hidden");
-            updateScore();
-        }
+    allOptions.forEach(opt => {
+      if(opt.checked && opt.value !== data.a) {
+        opt.parentElement.classList.add('wrong');
+      }
+    });
+  }
+}
 
-        function nextMCQ() { if(currentMCQ < mcqQuestions.length-1) { currentMCQ++; renderMCQ(); }}
-        function prevMCQ() { if(currentMCQ > 0) { currentMCQ--; renderMCQ(); }}
+function checkAnswers() {
+  let score = 0;
+  let total = tfQuestions.length + mcqQuestions.length;
 
-        function updateScore() {
-            const tfCorrect = tfAnswers.filter((a,i) => a === tfQuestions[i].a).length;
-            const mcqCorrect = mcqAnswers.filter((a,i) => a === mcqQuestions[i].correct).length;
-            document.getElementById("tf-score").textContent = `${tfCorrect}/60`;
-            document.getElementById("mcq-score").textContent = `${mcqCorrect}/50`;
-        }
+  document.querySelectorAll('.option').forEach(el => {
+    el.classList.remove('correct', 'wrong');
+  });
 
-        function resetQuiz(type) {
-            if(type === 0){ currentTF = 0; tfAnswers.fill(null); renderTF(); }
-            else { currentMCQ = 0; mcqAnswers.fill(null); renderMCQ(); }
-            updateScore();
-        }
+  tfQuestions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="tf${i}"]:checked`);
+    const allOptions = document.querySelectorAll(`input[name="tf${i}"]`);
 
-        window.onload = () => {
-            renderTF();
-            renderMCQ();
-        };
-    </script>
+    allOptions.forEach(opt => {
+      if(opt.value === q.a) {
+        opt.parentElement.classList.add('correct');
+      }
+    });
+
+    if(selected) {
+      if(selected.value === q.a) {
+        score++;
+        selected.parentElement.innerHTML += ' ✅ Correct';
+      } else {
+        selected.parentElement.classList.add('wrong');
+        selected.parentElement.innerHTML += ` ❌ Wrong - Correct Answer: ${q.a}`;
+      }
+    }
+  });
+
+  mcqQuestions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="mcq${i}"]:checked`);
+    const allOptions = document.querySelectorAll(`input[name="mcq${i}"]`);
+
+    allOptions.forEach(opt => {
+      if(opt.value === q.a) {
+        opt.parentElement.classList.add('correct');
+      }
+    });
+
+    if(selected) {
+      if(selected.value === q.a) {
+        score++;
+        selected.parentElement.innerHTML += ' ✅ Correct';
+      } else {
+        selected.parentElement.classList.add('wrong');
+        selected.parentElement.innerHTML += ` ❌ Wrong - Correct Answer: ${q.a}`;
+      }
+    }
+  });
+
+  document.getElementById('score').innerHTML = `Your Score: ${score} / ${total}`;
+}
+</script>
+
 </body>
 </html>
